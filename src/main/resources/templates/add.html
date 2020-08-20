@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>AddPage</title>
+</head>
+<body>
+
+<form></form>
+<h1>ADDUSER</h1>
+<form action="/admin/add" method="POST">
+    <label for="name">Name</label>
+    <input type="text" name="name" id="name">
+    <label for="password">Password</label>
+    <input type="text" name="password" id="password">
+    <div class="select" style="width:225px;" align="center">
+        <label>
+            <select name="roles" multiple size="2" style="width: 225px; ">
+                <option th:each="role : ${roles}"
+                        th:value="${role.id}"
+                        th:text="${role}">
+            </select>
+        </label>
+    </div>
+    <input type="submit"/>
+    <h4>Доступные роли(так чисто для теста)</h4>
+    <p th:text="${roles}"></p>
+</form>
+</body>
+</html>
