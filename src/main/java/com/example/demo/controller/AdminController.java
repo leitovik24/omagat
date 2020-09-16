@@ -5,6 +5,7 @@ import com.example.demo.model.Role;
 import com.example.demo.model.User;
 import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -15,7 +16,7 @@ import java.util.Set;
 
 
 @Controller
-@RequestMapping("/admin")
+@RequestMapping("/admin/**")
 public class AdminController {
 
     private final RoleDao roleDao;
@@ -27,10 +28,23 @@ public class AdminController {
     }
 
     @GetMapping
-    public String adminPage(ModelMap model) {
+    public String adminPage(ModelMap model, Authentication authentication) {
         List<User> users = service.allUsers();
+        User user1 = (User) authentication.getPrincipal();
+        String lol = user1.getUsername();
+        String lol2 = user1.getName();
+        String lol3 = user1.getPassword();
+        int lol4 = user1.getId();
+        List<Role> roles1 = roleDao.getAllRoles();
+        model.addAttribute("roles", roles1);
+        List<Role> roles = (List<Role>) authentication.getAuthorities();
+        model.addAttribute("name1", lol);
+        model.addAttribute("roles1", roles);
         model.addAttribute("users", users);
-        return "admin";
+        model.addAttribute("lol2", lol2);
+        model.addAttribute("lol3",lol3);
+        model.addAttribute("lol4",lol4);
+        return "admin2";
     }
 
 
@@ -52,29 +66,37 @@ public class AdminController {
         return "redirect:/admin";
     }
 
-    @GetMapping(value = "/edit/{id}")
+/*   @GetMapping(value = "/edit/{id}")
     public String editUserPage(@PathVariable("id") int id,
                                Model model) {
         List<Role> roles1 = roleDao.getAllRoles();
         model.addAttribute("roles", roles1);
         model.addAttribute("user", service.getUserById(id));
         return "edit";
-    }
+    }*/
 
     @PostMapping(value = "/edit")
-    public String editUser(@RequestParam String id,
+    public String editUser(@RequestParam("id") Integer id,
                            @RequestParam String name,
                            @RequestParam String password,
                            @RequestParam Set<Integer> roles){
-        User user = new User(Integer.parseInt(id),name, password);
+        User user = new User(id,name, password);
         user.setRoles(service.getRolesByName(roles));
         service.edit(user);
         return "redirect:/admin";
 
     }
 
-    @RequestMapping(value="/delete/{id}", method = RequestMethod.GET)
-    public String deleteUser(@PathVariable("id") int id) {
+//    @RequestMapping(value="/delete/{id}", method = RequestMethod.GET)
+//    public String deleteUser(@PathVariable("id") int id) {
+//        User user = service.getUserById(id);
+//        service.delete(user);
+//        return "redirect:/admin";
+//    }
+
+
+    @PostMapping("delete")
+    public String deleteUser(@RequestParam("id") Integer id){
         User user = service.getUserById(id);
         service.delete(user);
         return "redirect:/admin";

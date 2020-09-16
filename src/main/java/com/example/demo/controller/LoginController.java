@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 
+import javax.jws.WebParam;
 import javax.servlet.http.HttpSession;
 
 @Controller
@@ -31,9 +32,13 @@ public class LoginController {
             model.addAttribute("message", "Logged out ok");
         }
 
-        return "login";
+        return "login2";
     }
 
+    @GetMapping("error")
+    public String Hello(Model model){
+        return "login2";
+    }
 
     @PostMapping("logout")
     public String logout(HttpSession session){
