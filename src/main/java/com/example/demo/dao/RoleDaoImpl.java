@@ -16,11 +16,7 @@ public class RoleDaoImpl implements RoleDao {
 
     @Override
     public Role getRoleById(int id) {
-        Session session = entityManager.unwrap(Session.class);
-        Role role = (Role) session.createQuery("FROM Role where id =: roleId")
-                .setParameter("roleId", id)
-                .uniqueResult();
-        session.close();
+        Role role = entityManager.find(Role.class, id);
         return role;
     }
 

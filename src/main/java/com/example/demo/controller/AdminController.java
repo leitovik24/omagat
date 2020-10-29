@@ -66,14 +66,6 @@ public class AdminController {
         return "redirect:/admin";
     }
 
-/*   @GetMapping(value = "/edit/{id}")
-    public String editUserPage(@PathVariable("id") int id,
-                               Model model) {
-        List<Role> roles1 = roleDao.getAllRoles();
-        model.addAttribute("roles", roles1);
-        model.addAttribute("user", service.getUserById(id));
-        return "edit";
-    }*/
 
     @PostMapping(value = "/edit")
     public String editUser(@RequestParam("id") Integer id,
@@ -86,13 +78,6 @@ public class AdminController {
         return "redirect:/admin";
 
     }
-
-//    @RequestMapping(value="/delete/{id}", method = RequestMethod.GET)
-//    public String deleteUser(@PathVariable("id") int id) {
-//        User user = service.getUserById(id);
-//        service.delete(user);
-//        return "redirect:/admin";
-//    }
 
 
     @PostMapping("delete")

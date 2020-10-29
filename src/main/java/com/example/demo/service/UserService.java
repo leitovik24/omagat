@@ -4,7 +4,8 @@ import com.example.demo.model.User;
 import java.util.List;
 import java.util.Set;
 
-public interface UserService {  //чтобы засунуть в конфиг!!!!!!!!!
+public interface UserService {
+    Role getRoleById(int id);
     List<User> allUsers();
     void add(User user);
     void delete(User user);
