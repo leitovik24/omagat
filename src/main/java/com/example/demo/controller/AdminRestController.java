@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -55,10 +56,14 @@ public class AdminRestController {
         user.setPassword(password);
 
         if(roles.equalsIgnoreCase("ADMIN")) {
-            user.setRoles(Collections.singletonList(userService.getRoleById(1)));
+            ArrayList <Role> roleArrayList = new ArrayList<>();
+            roleArrayList.add(userService.getRoleById(1));
+            user.setRoles(roleArrayList);
         }
         else if(roles.equalsIgnoreCase("USER")) {
-            user.setRoles(Collections.singletonList(userService.getRoleById(2)));
+            ArrayList <Role> roleArrayList = new ArrayList<>();
+            roleArrayList.add(userService.getRoleById(2));
+            user.setRoles(roleArrayList);
         }
         userService.edit(user);
     }

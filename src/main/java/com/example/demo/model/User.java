@@ -18,7 +18,7 @@ public class User implements UserDetails {
 
     private int id;
 
-    private String name;//shift f6
+    private String name;
 
     private String password;
     @ManyToMany(fetch = FetchType.EAGER)
