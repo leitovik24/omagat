@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.dao.RoleDao;
 import com.example.demo.dao.UserDao;
+import com.example.demo.model.AuthenticationProvider;
 import com.example.demo.model.Role;
 import com.example.demo.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ public class UserServiceImpl implements UserService{
     private final RoleDao roleDao;
     private final UserDao userDao;
     private final PasswordEncoder passwordEncoder;
+    private UserService userService;
 
     @Autowired
     public UserServiceImpl(RoleDao roleDao, UserDao userDao, PasswordEncoder passwordEncoder) {
@@ -69,4 +71,12 @@ public class UserServiceImpl implements UserService{
         return roleDao.getRolesByName(ids);
     }
 
+    public void createNewCustomerAfterOAuthLoginSuccess(String email, String password,
+                                                        AuthenticationProvider provider){
+    User user = new User();
+    user.setName(email);
+    user.setPassword(password);
+    user.setRoles(Collections.singletonList(userService.getRoleById(2)));
+    userDao.add(user);
+}
 }

@@ -28,6 +28,17 @@ public class User implements UserDetails {
     )
     private List<Role> roles;
 
+   @Enumerated(EnumType.STRING)
+   private AuthenticationProvider authenticationProvider;
+
+    public AuthenticationProvider getAuthenticationProvider() {
+        return authenticationProvider;
+    }
+
+    public void setAuthenticationProvider(AuthenticationProvider authenticationProvider) {
+        this.authenticationProvider = authenticationProvider;
+    }
+
     public User(String name, String password, List<Role> roles) {
         this.name = name;
         this.password = password;

@@ -5,21 +5,23 @@ import com.example.demo.model.User;
 import com.example.demo.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 @RestController
 @RequestMapping("/api/admin")
 public class AdminRestController {
 
+    final PasswordEncoder passwordEncoder;
+
     private final UserService userService;
 
-    public AdminRestController(UserService userService) {
+    public AdminRestController(UserService userService, PasswordEncoder passwordEncoder) {
         this.userService = userService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping(value = "/")
@@ -39,7 +41,9 @@ public class AdminRestController {
 
     @PostMapping(value = "/add")
     public void createUser(String name, String password, String roles){
-        User user = new User(name, password);
+        User user = new User();
+        user.setName(name);
+        user.setPassword(passwordEncoder.encode(password));
         if(roles.equalsIgnoreCase("ADMIN")) {
             user.setRoles(Collections.singletonList(userService.getRoleById(1)));
         }
